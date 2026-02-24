@@ -8,7 +8,7 @@ members = [
 resolver = "2"
 
 [workspace.package]
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 license = "MIT OR Apache-2.0"
 authors = ["Martin"]
@@ -21,7 +21,7 @@ anyhow = "1.0"
 base64 = "0.22"
 chrono = { version = "0.4", features = ["serde"] }
 clap = { version = "4.5", features = ["derive"] }
-codex-extra-memory-core = { version = "0.1.0", path = "crates/codex-extra-memory-core" }
+codex-extra-memory-core = { version = "0.1.1", path = "crates/codex-extra-memory-core" }
 dirs = "6.0"
 regex = "1.11"
 reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls", "blocking"] }
