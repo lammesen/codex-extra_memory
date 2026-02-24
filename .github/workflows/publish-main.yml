@@ -6,7 +6,7 @@ on:
       - main
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: publish-main
@@ -143,3 +143,18 @@ jobs:
           publish_crate codex-extra-memory-core
           publish_crate codex-extra-memory-mcp
           publish_crate codex-memory
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.ci_version }}
+          name: v${{ steps.version.outputs.ci_version }}
+          target_commitish: ${{ github.sha }}
+          generate_release_notes: true
+          prerelease: true
+          body: |
+            crates.io publish completed for `${{ steps.version.outputs.ci_version }}`.
+
+            Install:
+            - `cargo install codex-memory --version ${{ steps.version.outputs.ci_version }}`
+            - `cargo install codex-extra-memory-mcp --version ${{ steps.version.outputs.ci_version }}`

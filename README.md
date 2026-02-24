@@ -57,6 +57,8 @@ cargo install codex-extra-memory-mcp --version <published-version>
 
 Use an explicit `--version` because CI publishes prerelease versions.
 
+Each successful publish also creates a GitHub prerelease (`v<published-version>`) in the repository Releases page.
+
 ## Install into Codex config
 
 ```bash
