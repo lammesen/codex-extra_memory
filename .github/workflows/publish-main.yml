@@ -120,7 +120,14 @@ jobs:
             local attempt=1
             while [ "$attempt" -le 5 ]; do
               echo "Publishing ${crate}@${CI_VERSION} (attempt ${attempt}/5)"
-              if cargo publish -p "$crate" --allow-dirty --token "$CARGO_REGISTRY_TOKEN"; then
+              local publish_output
+              set +e
+              publish_output="$(cargo publish -p "$crate" --allow-dirty --token "$CARGO_REGISTRY_TOKEN" 2>&1)"
+              local publish_status=$?
+              set -e
+              printf '%s\n' "$publish_output"
+
+              if [ "$publish_status" -eq 0 ]; then
                 echo "Published ${crate}@${CI_VERSION}"
                 return 0
               fi
@@ -128,6 +135,21 @@ jobs:
               if crate_version_exists "$crate"; then
                 echo "${crate}@${CI_VERSION} became visible after failed attempt, continuing"
                 return 0
+              fi
+
+              local retry_after
+              retry_after="$(printf '%s\n' "$publish_output" | sed -n 's/.*Please try again after \(.* GMT\).*/\1/p' | tail -n 1)"
+              if [ -n "$retry_after" ]; then
+                local now_epoch
+                local retry_epoch
+                now_epoch="$(date -u +%s)"
+                retry_epoch="$(date -u -d "$retry_after" +%s 2>/dev/null || true)"
+                if [ -n "$retry_epoch" ] && [ "$retry_epoch" -gt "$now_epoch" ]; then
+                  local sleep_seconds
+                  sleep_seconds="$((retry_epoch - now_epoch + 5))"
+                  echo "Rate limited by crates.io, sleeping ${sleep_seconds}s until ${retry_after}"
+                  sleep "$sleep_seconds"
+                fi
               fi
 
               if [ "$attempt" -lt 5 ]; then
