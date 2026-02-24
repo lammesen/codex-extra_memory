@@ -133,6 +133,11 @@ jobs:
                 return 0
               fi
 
+              if printf '%s\n' "$publish_output" | grep -q "already exists on crates.io index"; then
+                echo "${crate}@${CI_VERSION} already exists on index, continuing"
+                return 0
+              fi
+
               if crate_version_exists "$crate"; then
                 echo "${crate}@${CI_VERSION} became visible after failed attempt, continuing"
                 return 0
