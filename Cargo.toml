@@ -10,7 +10,7 @@ resolver = "2"
 [workspace.package]
 version = "0.1.0"
 edition = "2024"
-license = "MIT"
+license = "MIT OR Apache-2.0"
 authors = ["Martin"]
 rust-version = "1.85"
 repository = "https://github.com/lammesen/codex-extra_memory"
@@ -38,21 +38,28 @@ uuid = { version = "1.16", features = ["v4", "serde"] }
 mcpkit = "0.5"
 
 [workspace.lints.rust]
-unsafe_code = "deny"
-unused_must_use = "deny"
+unsafe_code = "forbid"
 
 [workspace.lints.clippy]
-all = { level = "deny", priority = -1 }
-pedantic = { level = "deny", priority = -1 }
-module_name_repetitions = "allow"
+pedantic = { level = "warn", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+cargo = { level = "warn", priority = -1 }
+# Existing code exceptions
+cargo_common_metadata = "allow"
+cast_possible_truncation = "allow"
+cast_possible_wrap = "allow"
+cast_precision_loss = "allow"
+cast_sign_loss = "allow"
+implicit_hasher = "allow"
+missing_const_for_fn = "allow"
 missing_errors_doc = "allow"
 missing_panics_doc = "allow"
-cast_possible_truncation = "allow"
-cast_sign_loss = "allow"
-cast_precision_loss = "allow"
-cast_possible_wrap = "allow"
+module_name_repetitions = "allow"
+multiple_crate_versions = "allow"
+needless_pass_by_ref_mut = "allow"
 needless_pass_by_value = "allow"
-too_many_lines = "allow"
+option_if_let_else = "allow"
+redundant_clone = "allow"
 too_many_arguments = "allow"
-implicit_hasher = "allow"
+too_many_lines = "allow"
 trim_split_whitespace = "allow"

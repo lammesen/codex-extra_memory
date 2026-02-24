@@ -1,0 +1,20 @@
+[workspace]
+changelog_config = "cliff.toml"
+git_release_enable = true
+semver_check = true
+
+[[package]]
+name = "codex-extra-memory-core"
+publish = true
+
+[[package]]
+name = "codex-extra-memory-mcp"
+publish = true
+
+[[package]]
+name = "codex-extra-memory"
+publish = true
+
+[[package]]
+name = "codex-extra-memory-installer"
+publish = false

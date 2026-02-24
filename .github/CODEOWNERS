@@ -1,1 +1,6 @@
 * @lammesen
+/.github/workflows/* @lammesen
+/SECURITY.md @lammesen
+/deny.toml @lammesen
+/release-plz.toml @lammesen
+/Cargo.toml @lammesen

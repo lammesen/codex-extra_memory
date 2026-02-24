@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(rm -rf ~)",
+      "Edit(.env*)",
+      "Read(.env*)",
+      "Write(.env*)"
+    ]
+  }
+}

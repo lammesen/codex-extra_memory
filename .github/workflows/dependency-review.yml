@@ -1,25 +1,26 @@
-name: dependency-review
+name: Dependency Review
 
 on:
   pull_request:
-    paths:
-      - "**/Cargo.toml"
-      - "Cargo.lock"
-      - ".github/workflows/**"
-      - ".github/dependabot.yml"
+    branches: [main]
 
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   dependency-review:
-    name: dependency-review
+    name: Dependency Risk Review
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       contents: read
-      pull-requests: write
     steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
       - name: Dependency review
-        uses: actions/dependency-review-action@05fe4576374b728f0c523d6a13d64c25081e0803
+        uses: actions/dependency-review-action@3c4e3dc4ed60eb73dbd9e0f177309a60f597c9dd # v4.8.0
         with:
-          fail-on-severity: high
+          config-file: .github/dependency-review-config.yml
