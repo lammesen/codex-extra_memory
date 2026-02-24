@@ -13,6 +13,8 @@ edition = "2024"
 license = "MIT"
 authors = ["Martin"]
 rust-version = "1.85"
+repository = "https://github.com/lammesen/codex-extra_memory"
+homepage = "https://github.com/lammesen/codex-extra_memory"
 
 [workspace.dependencies]
 anyhow = "1.0"

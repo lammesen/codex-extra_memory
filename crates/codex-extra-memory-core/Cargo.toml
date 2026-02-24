@@ -4,6 +4,9 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 rust-version.workspace = true
+description = "Core library for codex-extra-memory persistence, sync, and compaction."
+repository.workspace = true
+homepage.workspace = true
 
 [dependencies]
 anyhow.workspace = true

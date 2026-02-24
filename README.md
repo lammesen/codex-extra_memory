@@ -51,11 +51,12 @@ Each push to `main` publishes a unique prerelease version in this format:
 Install a published version with Cargo:
 
 ```bash
-cargo install codex-memory --version <published-version>
+cargo install codex-extra-memory --version <published-version>
 cargo install codex-extra-memory-mcp --version <published-version>
 ```
 
 Use an explicit `--version` because CI publishes prerelease versions.
+The installed CLI command remains `codex-memory`.
 
 Each successful publish also creates a GitHub prerelease (`v<published-version>`) in the repository Releases page.
 

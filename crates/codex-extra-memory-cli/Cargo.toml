@@ -1,9 +1,12 @@
 [package]
-name = "codex-memory"
+name = "codex-extra-memory"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 rust-version.workspace = true
+description = "CLI for codex-extra-memory."
+repository.workspace = true
+homepage.workspace = true
 
 [[bin]]
 name = "codex-memory"
