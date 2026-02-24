@@ -97,7 +97,7 @@ jobs:
           mv Cargo.toml.tmp Cargo.toml
 
       - name: Check workspace
-        run: cargo check --workspace --locked
+        run: cargo check --workspace
 
       - name: Publish crates
         shell: bash
