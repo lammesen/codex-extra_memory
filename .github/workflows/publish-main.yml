@@ -1,4 +1,4 @@
-name: Publish crates on main
+name: publish-main
 
 on:
   push:
@@ -6,34 +6,35 @@ on:
       - main
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: publish-main
   cancel-in-progress: false
 
 jobs:
-  publish:
+  publish-prerelease:
+    name: publish-prerelease
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
     env:
       CARGO_TERM_COLOR: always
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           fetch-depth: 0
 
-      - name: Set up Rust
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Validate token
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+      - name: Set up Rust stable
         run: |
-          if [ -z "${CARGO_REGISTRY_TOKEN:-}" ]; then
-            echo "CARGO_REGISTRY_TOKEN is required"
-            exit 1
-          fi
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+
+      - name: Authenticate to crates.io (OIDC)
+        id: crates-auth
+        uses: rust-lang/crates-io-auth-action@b7e9a28eded4986ec6b1fa40eeee8f8f165559ec
 
       - name: Compute CI version
         id: version
@@ -96,12 +97,12 @@ jobs:
           mv Cargo.toml.tmp Cargo.toml
 
       - name: Check workspace
-        run: cargo check --workspace
+        run: cargo check --workspace --locked
 
       - name: Publish crates
         shell: bash
         env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ steps.crates-auth.outputs.token }}
           CI_VERSION: ${{ steps.version.outputs.ci_version }}
         run: |
           crate_version_exists() {

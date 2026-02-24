@@ -1,0 +1,17 @@
+[advisories]
+vulnerability = "deny"
+unsound = "deny"
+unmaintained = "warn"
+yanked = "warn"
+ignore = []
+
+[licenses]
+unlicensed = "warn"
+allow-osi-fsf-free = "either"
+copyleft = "warn"
+confidence-threshold = 0.8
+
+[sources]
+unknown-registry = "warn"
+unknown-git = "warn"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]

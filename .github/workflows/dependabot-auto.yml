@@ -1,0 +1,52 @@
+name: dependabot-auto
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+
+permissions:
+  contents: read
+
+jobs:
+  dependabot-auto:
+    name: dependabot-auto
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@21025c705c08248db411dc16f3619e6b5f9ea21a
+
+      - name: Label Dependabot PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/labels" \
+            -f labels[]="dependencies" \
+            -f labels[]="automerge"
+
+      - name: Auto-approve patch/minor updates
+        if: contains(steps.metadata.outputs.update-type, 'semver-patch') || contains(steps.metadata.outputs.update-type, 'semver-minor')
+        uses: hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363
+        with:
+          github-token: ${{ github.token }}
+
+      - name: Enable auto-merge for patch/minor updates
+        if: contains(steps.metadata.outputs.update-type, 'semver-patch') || contains(steps.metadata.outputs.update-type, 'semver-minor')
+        uses: peter-evans/enable-pull-request-automerge@a660677d5469627102a1c1e11409dd063606628d
+        with:
+          token: ${{ github.token }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          merge-method: squash
