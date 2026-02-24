@@ -146,7 +146,7 @@ jobs:
 
       - name: Attest source archive provenance (non-blocking)
         continue-on-error: true
-        uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a
+        uses: actions/attest-build-provenance@96278af6caaf10aea03fd8d33a09a777ca52d62f
         with:
           subject-path: codex-extra-memory-${{ steps.version.outputs.version }}.tar.gz
 
