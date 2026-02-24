@@ -493,14 +493,11 @@ impl MemoryService {
         let scope_info = Self::detect_scope(workspace_dir);
         let scopes = current_scopes(&scope_info);
 
-        let output_path = match resolve_export_path_within_workspace(
-            workspace_dir,
-            format,
-            &output_path_raw,
-        ) {
-            Ok(path) => path,
-            Err(message) => return Ok(err("export", message)),
-        };
+        let output_path =
+            match resolve_export_path_within_workspace(workspace_dir, format, &output_path_raw) {
+                Ok(path) => path,
+                Err(message) => return Ok(err("export", message)),
+            };
 
         let entries = if include_all_scopes {
             self.store.export_active_memories(None)?

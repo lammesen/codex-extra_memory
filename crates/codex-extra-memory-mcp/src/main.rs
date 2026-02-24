@@ -98,7 +98,9 @@ fn wrap_memory_command_result(data: Value, session_id: String) -> Value {
     let error = if ok {
         None
     } else {
-        data.get("error").and_then(Value::as_str).map(str::to_string)
+        data.get("error")
+            .and_then(Value::as_str)
+            .map(str::to_string)
     };
 
     let mut payload = json!({
@@ -127,9 +129,10 @@ impl CodexExtraMemoryMcp {
             Err(error) => return ToolOutput::error(error.to_string()),
         };
         let app = Arc::clone(&self.app);
-        let result =
-            with_service_blocking(app, move |service| service.execute_command(&input, &workspace))
-                .await;
+        let result = with_service_blocking(app, move |service| {
+            service.execute_command(&input, &workspace)
+        })
+        .await;
         to_tool_output(result.map(|data| {
             if let Some(session_id) = session_id {
                 wrap_memory_command_result(data, session_id)
@@ -374,11 +377,8 @@ mod tests {
         let inside = workspace.join("nested");
         std::fs::create_dir_all(&inside).expect("create workspace dirs");
 
-        let resolved = resolve_workspace(
-            &workspace,
-            Some(inside.to_string_lossy().to_string()),
-        )
-        .expect("resolve inside");
+        let resolved = resolve_workspace(&workspace, Some(inside.to_string_lossy().to_string()))
+            .expect("resolve inside");
         assert!(resolved.starts_with(workspace.canonicalize().expect("canonicalize workspace")));
     }
 
@@ -413,10 +413,7 @@ mod tests {
             "session-1".to_string(),
         );
         assert_eq!(wrapped.get("ok").and_then(Value::as_bool), Some(false));
-        assert_eq!(
-            wrapped.get("error").and_then(|v| v.as_str()),
-            Some("boom")
-        );
+        assert_eq!(wrapped.get("error").and_then(|v| v.as_str()), Some("boom"));
     }
 
     #[tokio::test]
