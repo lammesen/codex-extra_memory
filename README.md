@@ -40,6 +40,23 @@ cargo test
 cargo build --release
 ```
 
+## Install from crates.io (CI publishes on every push to `main`)
+
+Each push to `main` publishes a unique prerelease version in this format:
+
+```text
+<base-version>-ci.<github-run-number>.<short-sha>
+```
+
+Install a published version with Cargo:
+
+```bash
+cargo install codex-memory --version <published-version>
+cargo install codex-extra-memory-mcp --version <published-version>
+```
+
+Use an explicit `--version` because CI publishes prerelease versions.
+
 ## Install into Codex config
 
 ```bash

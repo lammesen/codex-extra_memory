@@ -11,7 +11,7 @@ clap.workspace = true
 mcpkit.workspace = true
 serde_json.workspace = true
 tokio.workspace = true
-codex-extra-memory-core = { path = "../codex-extra-memory-core" }
+codex-extra-memory-core.workspace = true
 
 [dev-dependencies]
 tempfile = "3.14"
