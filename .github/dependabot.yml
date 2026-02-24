@@ -1,0 +1,41 @@
+version: 2
+updates:
+  - package-ecosystem: cargo
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "04:00"
+      timezone: UTC
+    open-pull-requests-limit: 10
+    groups:
+      cargo-patch-minor:
+        update-types:
+          - patch
+          - minor
+      cargo-major:
+        update-types:
+          - major
+    labels:
+      - dependencies
+      - cargo
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "04:30"
+      timezone: UTC
+    open-pull-requests-limit: 10
+    groups:
+      actions-patch-minor:
+        update-types:
+          - patch
+          - minor
+      actions-major:
+        update-types:
+          - major
+    labels:
+      - dependencies
+      - github-actions
