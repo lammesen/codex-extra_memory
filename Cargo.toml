@@ -20,7 +20,7 @@ homepage = "https://github.com/lammesen/codex-extra_memory"
 anyhow = "1.0"
 base64 = "0.22"
 chrono = { version = "0.4", features = ["serde"] }
-clap = { version = "4.5", features = ["derive"] }
+clap = { version = "4.6", features = ["derive"] }
 codex-extra-memory-core = { version = "0.1.0", path = "crates/codex-extra-memory-core" }
 dirs = "6.0"
 regex = "1.11"
@@ -31,10 +31,10 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 sha2 = "0.10"
 thiserror = "2.0"
-tokio = { version = "1.44", features = ["rt-multi-thread", "macros"] }
+tokio = { version = "1.51", features = ["rt-multi-thread", "macros"] }
 toml_edit = "0.22"
 url = "2.5"
-uuid = { version = "1.16", features = ["v4", "serde"] }
+uuid = { version = "1.23", features = ["v4", "serde"] }
 mcpkit = "0.5"
 
 [workspace.lints.rust]
